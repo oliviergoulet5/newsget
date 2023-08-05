@@ -18,11 +18,23 @@ Select a news source:
     source_option = promptIntOrPanic("Select: ")
 
     # Instantiate news sources
-    cbc = NewsSource(name="Canadian Broadcasting Corporation", alias="CBC", url="https://www.cbc.ca/news", scrape=news.scrapeCBC)
+    cbc = NewsSource(
+        name="Canadian Broadcasting Corporation", 
+        alias="CBC", 
+        url="https://www.cbc.ca/news", 
+        scrape=news.scrapeCBC
+    )
+    hacker_news = NewsSource(
+        name="Hacker News", 
+        alias="Hacker News", 
+        url="https://news.ycombinator.com", 
+        scrape=news.scrapeHackerNews
+    )
 
     # Create dictionary of news sources
     sources = {
-        1: cbc
+        1: cbc,
+        3: hacker_news
     }
 
     news_source = sources[source_option]

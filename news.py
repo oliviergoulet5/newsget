@@ -54,6 +54,37 @@ def scrapeCBC():
             out += string
         return out
 
-    return { "snippet": scrapeSnippets, "content": scrapeContent }
+    return { 
+        "snippet": scrapeSnippets, 
+        "content": scrapeContent
+    }
     
     
+def scrapeHackerNews():
+    def scrapeSnippets(url):
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, "html.parser")
+        
+        item_rows = soup.find_all("tr", class_="athing")
+        news_items = []
+
+        for row in item_rows:
+            headline_wrapper_element = row.find("span", class_="titleline")
+            headline_element = headline_wrapper_element.find("a")
+
+            if headline_element == None:
+                continue
+
+            news_items.append({
+                "headline": headline_element.text,
+                "url": headline_element["href"]
+            })
+        return news_items
+    def scrapeContent(article_snippet):
+        url = article_snippet["url"]
+        return f"HackerNews does not display article content!\n\nPlease read the article by following this link:\n{url}\n\n"
+    
+    return {
+        "snippet": scrapeSnippets,
+        "content": scrapeContent
+    }
