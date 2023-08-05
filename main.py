@@ -1,6 +1,7 @@
 from news import NewsSource
 import news
 from output_utils import promptIntOrPanic, paginatedPrompt
+import subprocess
 
 def main():
     print("newsget v.0.0.1")
@@ -30,7 +31,14 @@ Select a news source:
     snippetOptionMapper = lambda snippet : { "text": snippet["headline"], "value": snippet }
     options = list(map(snippetOptionMapper, article_snippets))
     result = paginatedPrompt(options)
-    
+
+    news_source.read(result)
+
+    subprocess.run(
+        ["less"], 
+        input=bytes(news_source.read(result), 'utf-8')
+    )
+
 if __name__ == "__main__":
     main()
 
